@@ -91,3 +91,10 @@ test('Execute SQL Query with Not Equal to', async () => {
     expect(result.length).toEqual(2);
     expect(result[0]).toHaveProperty('name');
 });
+
+test('Execute SQL Query with Less Than', async () => {
+    const queryWithLT = 'SELECT id FROM sample WHERE age < 25';
+    const result = await executeSELECTQuery(queryWithLT);
+    expect(result.length).toEqual(1); // Assuming there's only one entry with age < 25
+    expect(result[0]).toHaveProperty('id');
+});
