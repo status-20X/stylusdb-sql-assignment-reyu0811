@@ -3,14 +3,14 @@ const csv = require('csv-parser');
 
 function readCSV(filePath) {
     const results = [];
-    let headers = null;
+    // let headers = null;
 
     return new Promise((resolve, reject) => {
         fs.createReadStream(filePath)
             .pipe(csv())
-            .on('headers', (headerList) => {
-                headers = headerList;
-            })
+            // .on('headers', (headerList) => {
+            //     headers = headerList;
+            // })
             .on('data', (data) => results.push(data))
             .on('end', () => {
                 resolve(results);
