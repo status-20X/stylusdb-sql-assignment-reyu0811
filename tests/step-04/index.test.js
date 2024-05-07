@@ -31,7 +31,7 @@ test('Execute SQL Query', async () => {
 });
 
 
-test('Execute SQL Query', async () => {
+test('Execute SQL Query another example', async () => {
     const query = 'SELECT id, name FROM sample';
     const result = await executeSELECTQuery(query);
     expect(result.length).toBeGreaterThan(0);
