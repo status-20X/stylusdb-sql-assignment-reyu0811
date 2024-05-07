@@ -9,7 +9,7 @@ function parseQuery(query) {
             table: table.trim()
         };
     } else {
-        throw new Error('Invali query format');
+        throw new Error('Invalid query format');
     }
 }
 
