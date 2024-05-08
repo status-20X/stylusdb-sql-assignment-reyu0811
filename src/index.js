@@ -47,13 +47,16 @@ async function executeSELECTQuery(query) {
             : data;
 
         // Select the specified fields
-        return filteredData.map(row => {
+        const selectedRows = filteredData.map(row => {
             const selectedRow = {};
             fields.forEach(field => {
                 selectedRow[field] = row[field];
             });
             return selectedRow;
         });
+
+        // Return the selected rows
+        return selectedRows;
     } catch (error) {
         throw new Error(`Failed to execute query: ${error.message}`);
     }
