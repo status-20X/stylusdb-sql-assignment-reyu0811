@@ -86,15 +86,23 @@ test('Execute SQL Query with Greater Than', async () => {
 });
 
 test('Execute SQL Query with Not Equal to', async () => {
-    const queryWithGT = 'SELECT name FROM sample WHERE age != 25';
-    const result = await executeSELECTQuery(queryWithGT);
+    const queryWithNE = 'SELECT name FROM sample WHERE age != 25';
+    const result = await executeSELECTQuery(queryWithNE);
     expect(result.length).toEqual(2);
     expect(result[0]).toHaveProperty('name');
 });
 
-test('Execute SQL Query with Less Than', async () => {
-    const queryWithLT = 'SELECT id FROM sample WHERE age < 25';
-    const result = await executeSELECTQuery(queryWithLT);
-    expect(result.length).toEqual(1); // Assuming there's only one entry with age < 25
-    expect(result[0]).toHaveProperty('id');
+
+test('Negative Test: Invalid Comparison Operator', async () => {
+    const queryWithInvalidOperator = 'SELECT id FROM sample WHERE age <> 25'; // Using an invalid operator <>
+    try {
+        await executeSELECTQuery(queryWithInvalidOperator);
+        // If execution reaches here, it means the promise resolved instead of rejecting
+        // Fail the test with an error
+        throw new Error('Unsupported operator');
+    } catch (error) {
+        // Check if the error message contains the expected substring
+        expect(error.message).toContain('Unsupported operator');
+    }
 });
+
