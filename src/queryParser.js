@@ -28,5 +28,5 @@ function parseWhereClause(whereString) {
     });
 }
 
-module.exports = parseQuery;
+module.exports = parseQuery, parseWhereClause;
 
