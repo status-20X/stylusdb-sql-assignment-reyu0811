@@ -16,7 +16,9 @@ test('Parse SQL Query', () => {
     expect(parsed).toEqual({
         fields: ['id', 'name'],
         table: 'sample',
-        whereClauses: []
+        whereClauses: [],
+        joinTable: null, 
+        joinCondition: null
     });
 });
 
@@ -41,6 +43,8 @@ test('Parse SQL Query with WHERE Clause', () => {
           operator: "=",
           value: "25",
         }],
+        joinTable: null, 
+        joinCondition: null
     });
 });
 
@@ -67,7 +71,9 @@ test('Parse SQL Query with Multiple WHERE Clauses', () => {
             "field": "name",
             "operator": "=",
             "value": "John",
-        }]
+        }],
+        joinTable: null, 
+        joinCondition: null
     });
 });
 
@@ -86,8 +92,23 @@ test('Execute SQL Query with Greater Than', async () => {
 });
 
 test('Execute SQL Query with Not Equal to', async () => {
-    const queryWithGT = 'SELECT name FROM sample WHERE age != 25';
-    const result = await executeSELECTQuery(queryWithGT);
+    const queryWithNE = 'SELECT name FROM sample WHERE age != 25';
+    const result = await executeSELECTQuery(queryWithNE);
     expect(result.length).toEqual(2);
     expect(result[0]).toHaveProperty('name');
 });
+
+
+test('Negative Test: Invalid Comparison Operator', async () => {
+    const queryWithInvalidOperator = 'SELECT id FROM sample WHERE age <> 25'; // Using an invalid operator <>
+    try {
+        await executeSELECTQuery(queryWithInvalidOperator);
+        // If execution reaches here, it means the promise resolved instead of rejecting
+        // Fail the test with an error
+        throw new Error('Unsupported operator');
+    } catch (error) {
+        // Check if the error message contains the expected substring
+        expect(error.message).toContain('Unsupported operator');
+    }
+});
+
